@@ -1,1 +1,52 @@
+.center{
+    display: flex;
+    height: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
 
+#images{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 312px;
+}
+
+.image{
+    margin-left: 1px;
+    margin-right: 1px;
+
+}
+
+.main-image {
+    width: 100px;
+    height: 100px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.user-image{
+    width: 200px;
+    height: 200px;
+}
+
+#profile-info{
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+    border-style: solid;
+    border-bottom-width: 2px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    
+}
+
+.profile-grid{
+    margin-bottom: -80px;
+}
+
+.profile-img{
+    border-radius: 20%;
+}

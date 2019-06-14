@@ -1,9 +1,43 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab Three
-    </ion-title>
+    <ion-title>My Watchlist</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content padding>
+  <div *ngIf="user.isLogin()">
+    <div id="profile-info" *ngIf="profilePic">
+        <ion-grid class="profile-grid">
+          <ion-row>
+            <ion-col size="4" class="user-image">
+                <img src="https://ucarecdn.com/{{ profilePic }}/-/scale_crop/200x200/center/" class="profile-img">
+            </ion-col>
+            <ion-col size="8">
+              <p class="ion-text-center">{{ user.getEmail() }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </div>
+      <ion-item>
+          <ion-label>Action Sheet</ion-label>
+          <ion-select [interfaceOptions]="customActionSheetOptions" interface="action-sheet" placeholder="Select One">
+            <ion-select-option value="red">Red</ion-select-option>
+            <ion-select-option value="purple">Purple</ion-select-option>
+            <ion-select-option value="yellow">Yellow</ion-select-option>
+            <ion-select-option value="orange">Orange</ion-select-option>
+            <ion-select-option value="green">Green</ion-select-option>
+          </ion-select>
+        </ion-item>
+  </div>
+
+  <div class="center" *ngIf="!user.isLogin()">
+      <ion-button fill="solid" expand="block" color="dark">Login</ion-button>
+      <p class="ion-text-center">Or</p>
+      <ion-button fill="solid" expand="block" color="dark" routerLink="/register">Register</ion-button>
+  </div>
+
+  
+
+</ion-content>
+

@@ -1,9 +1,35 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Movie Search
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content padding>
+  <ion-searchbar placeholder="Enter movie title here!" animated="true" (change)="searchMovie($event)"></ion-searchbar>
+  <div *ngIf="searchResult">
+    
+        <div *ngIf="searchResult.Response != 'False'" >
+          <div *ngFor="let sr of searchResult.Search" style="margin-bottom: 10px">
+              <ion-card (click)="detailMovie(sr.title)">
+                  <ion-img src="{{sr.Poster}}"></ion-img>
+                  <div class="card-bg">
+                    <ion-card-header>
+                        <ion-card-title>{{sr.Title}} ({{sr.Year}})</ion-card-title>
+                        <ion-card-subtitle>{{sr.Actors}}</ion-card-subtitle>
+                      </ion-card-header>
+                  </div>
+                  <!-- <ion-button expand="block" (click)="addToWatchlist(sr.Title)">
+                      <ion-icon slot="start" name="star"></ion-icon>
+                      Add To Watchlist
+                  </ion-button> -->
+              </ion-card>
+          </div>
+        </div>
+        <div *ngIf="searchResult.Response == 'False'">
+            <ion-card-header>We couldn't find the movie :(</ion-card-header>
+        </div>
+        
+  </div>
+</ion-content>
