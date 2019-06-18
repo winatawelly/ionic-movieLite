@@ -7,6 +7,7 @@ import { firestore } from 'firebase/app';
 import { AlertController } from '@ionic/angular';
 
 
+
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.page.html',
@@ -25,18 +26,24 @@ export class MoviePage implements OnInit {
   constructor(public route:ActivatedRoute , public http:Http , public afStore : AngularFirestore , private user : UserService , public alert : AlertController) { }
 
   ngOnInit() {
-    this.ongoingMovieList = this.afStore.doc(`${this.user.getUID()}/ongoing`);
-    this.completedMovieList = this.afStore.doc(`${this.user.getUID()}/completed`);
+    if(this.user.isLogin()){
+      this.ongoingMovieList = this.afStore.doc(`${this.user.getUID()}/ongoing`);
+      this.completedMovieList = this.afStore.doc(`${this.user.getUID()}/completed`);
+      console.log(this.user.getEmail());
+    }
     this.movieID = this.route.snapshot.paramMap.get('id');
     const searchMovie = this.api+this.movieID;
     this.http.get(searchMovie).subscribe(res => {
       this.searchResult = res.json();
       console.log(this.searchResult);
     })
-    console.log(this.user.getEmail());
   }
 
+
   checkDouble(id:string){
+    if(!this.user.isLogin()){
+      return this.showAlert("Error","You need to login first!")
+    }
     this.isExist = false;
     this.sub1 = this.ongoingMovieList.valueChanges().subscribe(res => {
       for(const mov of res.watchlist){
@@ -64,6 +71,7 @@ export class MoviePage implements OnInit {
       }
       if(!this.isExist){
         console.log("dari check2");
+        this.sub2.unsubscribe();
         this.addToWatchlist(id);
       }
       else{
@@ -83,6 +91,7 @@ export class MoviePage implements OnInit {
       })
       this.showAlert("success","added to watchlist!");
   }
+
 
   async showAlert(header:string, message:string){
     const alert = await this.alert.create({

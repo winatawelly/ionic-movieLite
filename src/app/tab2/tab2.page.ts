@@ -22,7 +22,10 @@ export class Tab2Page {
   sub;
   constructor(public http : Http, public afStore : AngularFirestore,private user : UserService, public alert : AlertController, public router : Router) 
   {
-    this.mainUser = afStore.doc(`users/${this.user.getUID()}`);
+    if(user.isLogin()){
+      this.mainUser = afStore.doc(`users/${this.user.getUID()}`);
+    }
+
   }
 
   searchMovie(event){
@@ -34,38 +37,7 @@ export class Tab2Page {
     })
     
   }
-
-  addToWatchlist(movieName:string){
-    const searchMovieTitle = this.api+movieName.split(' ').join('+');
-    //this.checkDouble(searchMovieTitle);
-    if(this.isExist){
-      this.afStore.doc(`${this.user.getUID()}/ongoing`).update({
-        watchlist: firestore.FieldValue.arrayUnion(searchMovieTitle)
-      })
   
-      this.showAlert("Success", movieName+' added to your watchlist !');
-      this.isExist = false;
-    }else{
-      this.showAlert("Failed", movieName+' is already in your watchlist !')
-      this.isExist = false;
-    }
-    
-    
-  }
-
-  checkDouble(movieName:string){
-    
-    this.sub = this.mainUser.valueChanges().subscribe(event => {
-      event.watchlist.forEach(movie =>{
-        if(movie == movieName){
-          this.isExist = true;
-        }
-      })
-    })
-    this.sub.unsubscribe();
-    return this.isExist;
-  }
-
   async showAlert(header:string, message:string){
     const alert = await this.alert.create({
       header,

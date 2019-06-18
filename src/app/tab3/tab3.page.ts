@@ -15,8 +15,12 @@ export class Tab3Page {
   profilePic;
   email;
   constructor(private user : UserService , private router : Router , private afStore : AngularFirestore) {
-    if(user.isLogin()){
-      this.mainUser = this.afStore.doc(`users/${user.getUID()}`);
+    
+  }
+
+  ionViewWillEnter(){
+    if(this.user.isLogin()){
+      this.mainUser = this.afStore.doc(`users/${this.user.getUID()}`);
       this.sub = this.mainUser.valueChanges().subscribe(event => {
       this.profilePic = event.profilePic;
       this.email = event.email;
@@ -26,12 +30,15 @@ export class Tab3Page {
     })
 
     }
-    
-    
+
   }
 
   signOut(){
     this.user.signOut();
+    window.location.reload();
+    
   }
+
+  
 
 }
