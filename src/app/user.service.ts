@@ -43,24 +43,26 @@ export class UserService{
         return this.afAuth.auth.currentUser.reauthenticateWithCredential(auth.EmailAuthProvider.credential(email,password));
     }
 
-    updatePassword(newPassword:string){
-        return this.afAuth.auth.currentUser.updatePassword(newPassword);
+    signOut(){
+        return this.afAuth.auth.signOut();
     }
 
     async isAuthenticated(){
         if(this.user) return true;
         const user = await this.afAuth.authState.pipe(first()).toPromise();
         console.log(user);
+        if(this.isLogin){
+            if(user){
+                this.setUser({
+                    email: user.email,
+                    uid: user.uid
+                })
 
-        if(user){
-            this.setUser({
-                email: user.email,
-                uid: user.uid
-            })
-
-            return true;
+                //return true;
+            }
         }
-        return false;
+       
+        return true;
     }
     
 }

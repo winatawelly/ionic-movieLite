@@ -12,7 +12,7 @@
     
         <div *ngIf="searchResult.Response != 'False'" >
           <div *ngFor="let sr of searchResult.Search" style="margin-bottom: 10px">
-              <ion-card (click)="detailMovie(sr.title)">
+              <ion-card (click)="detailMovie(sr.imdbID)">
                   <ion-img src="{{sr.Poster}}"></ion-img>
                   <div class="card-bg">
                     <ion-card-header>

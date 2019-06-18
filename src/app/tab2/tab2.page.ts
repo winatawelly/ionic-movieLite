@@ -75,8 +75,8 @@ export class Tab2Page {
     await alert.present();
   }
 
-  detailMovie(movieName: string){
-    this.router.navigate(['/movie']);
+  detailMovie(movieID: string){
+    this.router.navigate(['tabs/movie/' + movieID]);
     
   }
 

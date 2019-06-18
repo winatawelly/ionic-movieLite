@@ -38,7 +38,8 @@ const routes: Routes = [
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
-      }
+      },
+      { path: 'movie/:id', loadChildren: '../movie/movie.module#MoviePageModule' }
     ]
   },
   {

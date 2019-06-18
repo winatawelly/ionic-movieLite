@@ -14,19 +14,17 @@
             </ion-col>
             <ion-col size="8">
               <p class="ion-text-center">{{ user.getEmail() }}</p>
+              <ion-button expand="block" color="primary" size="small" (click)="signOut()">Sign Out</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
 
       </div>
       <ion-item>
-          <ion-label>Action Sheet</ion-label>
+          <ion-label>Type</ion-label>
           <ion-select [interfaceOptions]="customActionSheetOptions" interface="action-sheet" placeholder="Select One">
-            <ion-select-option value="red">Red</ion-select-option>
-            <ion-select-option value="purple">Purple</ion-select-option>
-            <ion-select-option value="yellow">Yellow</ion-select-option>
-            <ion-select-option value="orange">Orange</ion-select-option>
-            <ion-select-option value="green">Green</ion-select-option>
+            <ion-select-option value="ongoing">Ongoing</ion-select-option>
+            <ion-select-option value="completed">Completed</ion-select-option>
           </ion-select>
         </ion-item>
   </div>

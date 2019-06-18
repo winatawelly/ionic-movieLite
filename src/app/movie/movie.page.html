@@ -1,9 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Detail Movie</ion-title>
+    <ion-title>Movie</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <div *ngIf="searchResult">
+    <ion-card>
+        <ion-img src="{{searchResult.Poster}}"></ion-img>
+        <div class="card-bg">
+          <ion-card-header>
+            <ion-card-subtitle>{{searchResult.Actors}}</ion-card-subtitle>
+            <ion-card-title>{{searchResult.Title}} ({{searchResult.Year}})</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{searchResult.Plot}}</p>
+          </ion-card-content>
+        </div>
+        <ion-button expand="block" (click)="checkDouble(searchResult.imdbID)">
+            <ion-icon slot="start" name="star"></ion-icon>
+            Add To Watchlist
+        </ion-button>
+    </ion-card>
+  </div>
 
 </ion-content>
