@@ -1,2 +1,2 @@
-# ionic-movieLite
-Movie watchlist app I made for my class project
+# Movie Lite
+Movie Watchlist app i made using ionic and firebase for my class final project
