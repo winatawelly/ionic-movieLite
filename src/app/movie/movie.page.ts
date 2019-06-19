@@ -31,12 +31,17 @@ export class MoviePage implements OnInit {
       this.completedMovieList = this.afStore.doc(`${this.user.getUID()}/completed`);
       console.log(this.user.getEmail());
     }
+
     this.movieID = this.route.snapshot.paramMap.get('id');
     const searchMovie = this.api+this.movieID;
     this.http.get(searchMovie).subscribe(res => {
       this.searchResult = res.json();
       console.log(this.searchResult);
     })
+  }
+
+  ionViewWillEnter(){
+   
   }
 
 
@@ -46,37 +51,52 @@ export class MoviePage implements OnInit {
     }
     this.isExist = false;
     this.sub1 = this.ongoingMovieList.valueChanges().subscribe(res => {
-      for(const mov of res.watchlist){
-        if(id == mov){
-         this.isExist = true;
+      if(Object.keys(res).length != 0){
+        for(const mov of res.watchlist){
+          if(id == mov){
+           this.isExist = true;
+          }
         }
-      }
-      if(!this.isExist){
+
+        if(!this.isExist){
+          this.sub1.unsubscribe();
+          this.checkDouble2(id);
+        }else{
+          this.showAlert("Failed", "This movie is already on your ongoing watchlist")
+        }
+      }else{
         this.sub1.unsubscribe();
         this.checkDouble2(id);
-      }else{
-        this.showAlert("Failed", "This movie is already on your ongoing watchlist")
       }
+      
+      
       
     });   
   }
 
   checkDouble2(id:string){
     this.sub2 = this.completedMovieList.valueChanges().subscribe(res2 => {
-      for(const mov2 of res2.watchlist){
-        if(id == mov2){
-          console.log("hei");
-          this.isExist = true;
+      if(Object.keys(res2).length != 0){
+        for(const mov2 of res2.watchlist){
+          if(id == mov2){
+            console.log("hei");
+            this.isExist = true;
+          }
         }
-      }
-      if(!this.isExist){
-        console.log("dari check2");
+        if(!this.isExist){
+          console.log("dari check2");
+          this.sub2.unsubscribe();
+          this.addToWatchlist(id);
+        }
+        else{
+          this.showAlert("Failed", "This movie is already on your completed watchlist")
+        }
+      }else{
         this.sub2.unsubscribe();
         this.addToWatchlist(id);
       }
-      else{
-        this.showAlert("Failed", "This movie is already on your completed watchlist")
-      }
+
+      
 
       
     })
