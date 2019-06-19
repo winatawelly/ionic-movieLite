@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 interface user{
     email : string,
     uid : string,
+    name : string
 }
 @Injectable()
 export class UserService{
@@ -27,6 +28,10 @@ export class UserService{
         return this.user.uid;
         
         
+    }
+
+    getName(){
+        return this.user.name;
     }
 
     getEmail() {
@@ -55,7 +60,8 @@ export class UserService{
             if(user){
                 this.setUser({
                     email: user.email,
-                    uid: user.uid
+                    uid: user.uid,
+                    name:user.displayName
                 })
 
                 //return true;

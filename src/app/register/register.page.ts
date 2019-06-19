@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -14,6 +15,7 @@ export class RegisterPage implements OnInit {
   email : string = '';
   password : string = '';
   cPassword : string = '';
+  name : string = '';
 
   constructor(public afAuth: AngularFireAuth,
     public afStore: AngularFirestore,
@@ -26,17 +28,20 @@ export class RegisterPage implements OnInit {
   }
 
   register(){
-    if(this.email == "" || this.password == '' || this.cPassword == ''){
+    if(this.email == "" || this.password == '' || this.cPassword == '' || this.name == ''){
       return this.showAlert("Error","")
     }
     if(this.password != this.cPassword){
       return this.showAlert("Error","Passwords do not match!");
     }
     this.afAuth.auth.createUserWithEmailAndPassword(this.email,this.password).then((success)=>{
-        
+      this.afAuth.auth.currentUser.updateProfile({
+        displayName:this.name
+      })
       this.afStore.doc(`users/${success.user.uid}`).set({
         email:this.email,
-        profilePic:''
+        profilePic:'',
+        displayName:this.name
       })
 
       this.afStore.doc(`${success.user.uid}/ongoing`).set({});
@@ -45,6 +50,7 @@ export class RegisterPage implements OnInit {
       this.user.setUser({
         email:this.email,
         uid:success.user.uid,
+        name:success.user.displayName
       })
 
       this.showAlert("Success","Welcome!");
