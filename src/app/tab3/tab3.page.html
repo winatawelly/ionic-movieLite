@@ -23,11 +23,18 @@
       </div>
       <ion-item>
           <ion-label>Type</ion-label>
-          <ion-select [interfaceOptions]="customActionSheetOptions" interface="action-sheet" placeholder="Select One">
+          <ion-select [(ngModel)]="type" [interfaceOptions]="customActionSheetOptions" interface="action-sheet" (ionChange)="showMovie()" placeholder="Select One">
             <ion-select-option value="ongoing">Ongoing</ion-select-option>
             <ion-select-option value="completed">Completed</ion-select-option>
           </ion-select>
-        </ion-item>
+      </ion-item>
+
+      <div *ngIf="this.movies.length != 0" id="images">
+        <div *ngFor="let mov of movies" id="image">
+          <img src="{{mov.poster}}" width="300" height="375"  class="main-image" (click)="detailMovie(mov.id)">
+        </div>
+      </div>
+
   </div>
 
   <div class="center" *ngIf="!user.isLogin()">

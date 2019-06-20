@@ -17,10 +17,32 @@
             <p>{{searchResult.Plot}}</p>
           </ion-card-content>
         </div>
-        <ion-button expand="block" (click)="checkDouble(searchResult.imdbID)">
-            <ion-icon slot="start" name="star"></ion-icon>
-            Add To Watchlist
-        </ion-button>
+        <div *ngIf="!this.from">
+            <ion-button expand="block" (click)="checkDouble(searchResult.imdbID)">
+                <ion-icon slot="start" name="star"></ion-icon>
+                Add to watchlist
+            </ion-button>
+        </div>
+
+        <div *ngIf="this.from == 'ongoing'">
+            <ion-button expand="block" color='medium' (click)="complete(searchResult.imdbID)">
+                <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+                Complete
+            </ion-button>
+
+            <ion-button expand="block" color='danger' (click)="delete(searchResult.imdbID)">
+                <ion-icon slot="start" name="close-circle"></ion-icon>
+                Delete from watchlist
+            </ion-button>
+        </div>
+
+        <div *ngIf="this.from == 'completed'">
+            <ion-button expand="block" color='danger' (click)="delete(searchResult.imdbID)">
+                <ion-icon slot="start" name="close-circle"></ion-icon>
+                Delete from watchlist
+            </ion-button>
+        </div>
+        
     </ion-card>
   </div>
 

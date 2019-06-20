@@ -8,15 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        children: [
-          {
-            path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
-          }
-        ]
-      },
-      {
         path: 'tab2',
         children: [
           {
@@ -39,7 +30,8 @@ const routes: Routes = [
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
       },
-      { path: 'movie/:id', loadChildren: '../movie/movie.module#MoviePageModule' }
+      { path: 'movie/:id', loadChildren: '../movie/movie.module#MoviePageModule' },
+      { path: 'movie/:id/:from', loadChildren: '../movie/movie.module#MoviePageModule' }
     ]
   },
   {

@@ -54,7 +54,7 @@ export class RegisterPage implements OnInit {
       })
 
       this.showAlert("Success","Welcome!");
-      this.router.navigate(['/tabs']);
+      this.router.navigate(['/tabs/tab2']);
     }).catch((error)=>{
       return this.showAlert(error.code , error.message);
       });

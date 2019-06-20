@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
           uid:res.user.uid,
           name:res.user.displayName
         })
-        this.router.navigate(['/tabs']);
+        this.router.navigate(['/tabs/tab2']);
       }
     }).catch((error)=>{
       //this.showAlert(error.code,error.message);

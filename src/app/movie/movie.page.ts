@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../user.service';
@@ -19,11 +19,12 @@ export class MoviePage implements OnInit {
   isExist : boolean = false;
   isExist2 : boolean = false;
   sub1;
-  sub2; 
+  sub2;
+  from; 
   ongoingMovieList : AngularFirestoreDocument;
   completedMovieList : AngularFirestoreDocument;
   api:string = "http://www.omdbapi.com/?apikey=96a1da30&i=";
-  constructor(public route:ActivatedRoute , public http:Http , public afStore : AngularFirestore , private user : UserService , public alert : AlertController) { }
+  constructor(public route:ActivatedRoute , public http:Http , public afStore : AngularFirestore , private user : UserService , public alert : AlertController , public router:Router) { }
 
   ngOnInit() {
     if(this.user.isLogin()){
@@ -33,6 +34,10 @@ export class MoviePage implements OnInit {
     }
 
     this.movieID = this.route.snapshot.paramMap.get('id');
+    this.from = this.route.snapshot.paramMap.get('from');
+    if(this.from){
+      console.log(this.from);
+    }
     const searchMovie = this.api+this.movieID;
     this.http.get(searchMovie).subscribe(res => {
       this.searchResult = res.json();
@@ -103,13 +108,30 @@ export class MoviePage implements OnInit {
     
   }
 
-  
-
   addToWatchlist(id:string){
       this.afStore.doc(`${this.user.getUID()}/ongoing`).update({
         watchlist:firestore.FieldValue.arrayUnion(id)
       })
       this.showAlert("success","added to watchlist!");
+  }
+
+  complete(id:string){
+    this.afStore.doc(`${this.user.getUID()}/ongoing`).update({
+      watchlist:firestore.FieldValue.arrayRemove(id)
+    });
+    this.afStore.doc(`${this.user.getUID()}/completed`).update({
+      watchlist:firestore.FieldValue.arrayUnion(id)
+    })
+    this.showAlert("Success","Moved to completed list!");
+    this.router.navigate(['/tabs/tab3']);
+  }
+
+  delete(id:string){
+    this.afStore.doc(`${this.user.getUID()}/${this.from}`).update({
+      watchlist:firestore.FieldValue.arrayRemove(id)
+    })
+    this.showAlert("Success","Deleted!");
+    this.router.navigate(['/tabs/tab3']);
   }
 
 
