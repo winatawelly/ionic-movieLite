@@ -36,7 +36,7 @@ export class Tab3Page {
       this.profilePic = event.profilePic;
       this.email = event.email;
       if(this.profilePic == ''){
-        this.profilePic = "95fee9cd-02f6-4e18-8ffa-255ba9273d54";
+        this.profilePic = "a8c956f1-15e2-427a-82cc-b7d868607629";
       }
     })
     this.showMovie();
